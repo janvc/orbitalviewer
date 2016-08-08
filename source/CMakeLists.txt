@@ -34,7 +34,14 @@ include_directories(${Qt5OpenGL_INCLUDE_DIRS})
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
+set(CMAKE_AUTOMOC ON)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+
 set(SOURCES
+    main.cpp
     orbviewwindow.cpp
 )
 
@@ -51,6 +58,7 @@ qt5_add_resources(RCC_SOURCES ${RESOURCES})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-
+add_executable(orbview ${SOURCES} ${UI_SOURCES} ${RCC_SOURCES})
+target_link_libraries(orbview Qt5::Widgets Qt5::OpenGL ${CHEMKIT_LIBRARIES} ${Boost_LIBRARIES})
 
 

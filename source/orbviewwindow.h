@@ -24,6 +24,13 @@
 
 #include <QMainWindow>
 
+#ifndef Q_MOC_RUN
+    #include <chemkit/molecule.h>
+    #include <chemkit/moleculefileformat.h>
+    #include <chemkit/graphicsmoleculeitem.h>
+#endif
+
+
 namespace Ui
 {
     class OrbViewWindow;
@@ -37,8 +44,25 @@ public:
     explicit OrbViewWindow(QWidget *parent = 0);
     ~OrbViewWindow();
 
+    void setMolecule(const boost::shared_ptr<chemkit::Molecule> &molecule);
+
+public slots:
+    void openFile();
+    void openFile(const QString &fileName);
+    void closeFile();
+    void quit();
+    void centerCamera();
+
+signals:
+    void fileChanged(chemkit::MoleculeFile *file);
+    void moleculeChanged(chemkit::Molecule *molecule);
+
 private:
     Ui::OrbViewWindow *ui;
+
+    chemkit::MoleculeFile *m_file;
+    boost::shared_ptr<chemkit::Molecule> m_molecule;
+    chemkit::GraphicsMoleculeItem *m_moleculeItem;
 };
 
 #endif // ORBVIEWWINDOW_H
